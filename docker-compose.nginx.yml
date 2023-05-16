@@ -1,0 +1,16 @@
+version: '3'
+
+services:
+  frontend:
+    container_name: client
+    build:
+      context: .
+      dockerfile: ./compose/nginx/Dockerfile
+      args:
+        - NODE_ENV=production
+        - PUBLIC_URL=test.localhost.com
+    # volumes:
+    #   - ./frontend/public/index.html:/usr/share/nginx/html/index.html
+    ports:
+      - 3007:80
+

@@ -1,0 +1,44 @@
+version: '3'
+
+services:
+  db:
+    container_name: app-database
+    image: postgres:14
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_USER=user
+      - POSTGRES_DB=db_prod
+
+  backend:
+    container_name: app-server
+    build:
+      context: .
+      dockerfile: ./compose/production/backend/Dockerfile
+    command: /start
+    volumes:
+      - ./backend:/usr/src/app
+    ports:
+      - 8000:8000
+    env_file:
+      - ./.env/.env.production.local
+    depends_on:
+      - db
+
+  frontend:
+    container_name: app-client
+    build:
+      context: .
+      dockerfile: ./compose/production/frontend/Dockerfile
+    stdin_open: true
+    volumes:
+      - './frontend:/usr/src/app'
+      - '/usr/src/app/node_modules'
+    ports:
+      - 3000:3000
+    environment:
+      - NODE_ENV=production
+      - PUBLIC_URL=http://0.0.0.0:3000/
+    depends_on:
+      - backend
