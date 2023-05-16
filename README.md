@@ -23,7 +23,7 @@ El diagrama debe hacer un mejor uso de las soluciones distribuidas.
 
 *Solución*
 
-<img src='https://lucid.app/documents/view/19d07bdb-19ec-436d-9147-25c3efb6c7d8' name='Diagrama AWS'>
+<img src="https://lucid.app/documents/view/19d07bdb-19ec-436d-9147-25c3efb6c7d8" alt="Diagrama AWS" title="Diagrama AWS">
 
 Descripción del diseño:
 
