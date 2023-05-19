@@ -25,9 +25,11 @@ El diagrama debe hacer un mejor uso de las soluciones distribuidas.
 
 <img src="https://lucid.app/documents/view/19d07bdb-19ec-436d-9147-25c3efb6c7d8" alt="Diagrama AWS" title="Diagrama AWS">
 
+![image](img/web_app_diagram_AWS.png)
+
 Descripción del diseño:
 
-Para satisfacer los requisitos mencionados, se proporciona una arquitectura de infraestructura para una aplicación web en la nube utilizando AWS.
+Para satisfacer los requisitos mencionados, se proporciona una arquitectura de infraestructura para una aplicación web en la nube utilizando AWS, diseñada en [Lucidchart](https://www.lucidchart.com/pages/es).
 Con el objetivo de garantizar una alta disponibilidad, se implementará una solución distribuida, con la replicación de servidores en diferentes zonas de disponibilidad. 
 
 * Para la administración de DNS, se utilizará el servicio **Amazon Route 53** (1).
