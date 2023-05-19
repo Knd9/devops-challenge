@@ -1,0 +1,29 @@
+stages:
+  - build
+  - deploy
+
+variables:
+  NGINX_PORT: 80
+  NGINX_IMAGE: ./Dockerfile
+  NGINX_CONFIG_SOURCE_PATH: ./default.conf
+  NGINX_CONFIG_TARGET_PATH: /etc/nginx/conf.d/default.conf
+
+build:
+  stage: build
+  script:
+    - echo "Building the HTML image..."
+    - docker build -t $NGINX_IMAGE .
+  rules:
+  - changes:
+    - frontend/public/index.html
+
+deploy:
+  stage: deploy
+  script:
+    - echo "Deploying the HTML image..."
+    - echo "Configuring Nginx..."
+    - cp $NGINX_CONFIG_SOURCE_PATH $NGINX_CONFIG_TARGET_PATH
+    - docker run -d --name nginx-server -p ${NGINX_PORT}:${NGINX_PORT} -v $(pwd)/$NGINX_CONFIG_SOURCE_PATH:$NGINX_CONFIG_TARGET_PATH -v $(pwd)/html:/usr/share/nginx/html $NGINX_IMAGE
+  rules:
+  - changes:
+    - frontend/public/index.html

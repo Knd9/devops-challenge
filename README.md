@@ -47,6 +47,8 @@ Podría complementarse con **Amazon CloudFront** (4) como servicio de CDN (Red d
 
 (*) El servicio **Amazon Elastic Compute Cloud (EC2)** permite lanzar instancias de servidores virtuales en la nube con varias opciones de configuración, como el tamaño de la instancia, el tipo de sistema operativo, la capacidad de almacenamiento y la cantidad de CPU y RAM. Se pueden utilizar múltiples instancias de EC2, distribuyendo el tráfico entre ellas. Incluso para soportar cargas variables, la función **Auto Scaling de EC2** (6) permite escalar automáticamente el número de instancias en función de la demanda, donde se pueden crear condiciones para agregar o eliminar instancias de EC2, logrando mantener la capacidad de la red para manejar picos de tráfico.
 
+Otro servicio que sería muy útil agregar para el monitoreo de recursos utilizados es **Amazon Clou Watch**.
+
 ## 2. Despliegue de una aplicación Django y React.js:
 
 Elaborar el deployment dockerizado de una aplicación en django (backend) con frontend en React.js contenida en el repositorio. Es necesario desplegar todos los servicios en un solo docker-compose. 
@@ -72,7 +74,11 @@ Respecto al despliegue en la nube además, siendo como se mencionó anteriorment
 
 ### Instrucciones de despliegue
 
-Para los usuarios de Mac, si se obtienen errores extraños, ejecutar `export DOCKER_DEFAULT_PLATFORM=linux/amd64` antes de los comandos de Docker Compose.
+Instalar [Docker](https://docs.docker.com/engine/install/) en su sistema operativo.
+
+Ir a la terminal y asegurarse de que Docker esté iniciado.
+
+Para los usuarios de Mac, ejecutar `export DOCKER_DEFAULT_PLATFORM=linux/amd64` antes de los comandos de Docker Compose.
 
 Descargar el respositorio desde GitHub con el siguiente comando:
 
@@ -112,17 +118,16 @@ Dockerizar un nginx con el index.html default. Elaborar un pipeline que ante cad
 
 *Solución*
 
-La implementación se encuentra en el directorio `./compose/nginx` y en el archivo docker-compose `docker-compose.nginx.yml`.
-Faltó corregir un error de dependencias para poder terminar su ejecución.
+La implementación está hecha utilizando **GitHub Actions**, a través del archivo pipeline CI/CD `./compose/nginx/.github/workflows/ci.yml`. 
 
-Para ejecutarlo:
+El pipeline se inicia cuando se produce un push o una pull request en la rama *main*. Este consta de un *job* llamado **build** que se ejecuta en una máquina virtual con Ubuntu.
 
-```
-docker-compose -f docker-compose.nginx.yml up --build
-```
+Comprende la verificación de si hubo algún cambio en el respositorio (inclusive en index.html), la construcción de la imagen de Nginx ubicada en `./compose/nginx/Dockerfile` con el comando `docker build`), y como paso final, copia la configuración de Nginx `./compose/nginx/default.conf` al directorio `/etc/nginx/conf.d` y realiza el despliegue con `docker build` para crear un contenedor Docker utilizando la imagen y montando los archivos `default.conf` y el directorio `html` en el mismo.
 
-Para finalizar, ejecutar el siguiente comando:
+Puede monitorearse el progreso y los resultados del pipeline en la pestaña "Actions" del repositorio.
 
-```
-docker-compose down --rmi all --remove-orphans
-```
+Adicionalmente, se proporciona un pipeline para **GitLab CI**, ubicado en `./compose/nginx/.gitlab-ci.yml` como alternativa si se subiera el repositorio a GitLab. 
+
+Respecto a la semántica es similar al pipeline descripto anteriormente, sólo que permite triggerearlo específicamente cuando se detecten cambios en el archivo HTML indicado, mediante la regla **changes**.
+
+Además, su sintaxis no verbosa es útil para definir variables que se utilizarán a continuación. Otra diferencia sintáxtica es que en vez de usar *jobs* se arregla de *stages* o etapas, las cuales en este caso son *build* y *deploy*.

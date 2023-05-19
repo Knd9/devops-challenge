@@ -1,0 +1,30 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        # get the source code to check if there were any changes
+        uses: actions/checkout@v2
+
+      - name: Build Docker image
+        run: |
+          echo "Building the Nginx image..."
+          docker build -t ../../Dockerfile .
+
+      - name: Deploy to Nginx
+        run: |
+          echo "Deploying the Nginx image..."
+          echo "Configuring Nginx..."
+          cp ../../default.conf /etc/nginx/conf.d/default.conf
+          docker run -d --name nginx-server -p 80:80 -v $(pwd)/default.conf:/etc/nginx/conf.d/default.conf -v $(pwd)/html:/usr/share/nginx/html ../../Dockerfile
