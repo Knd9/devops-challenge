@@ -23,8 +23,6 @@ El diagrama debe hacer un mejor uso de las soluciones distribuidas.
 
 *Solución*
 
-<img src="https://lucid.app/documents/view/19d07bdb-19ec-436d-9147-25c3efb6c7d8" alt="Diagrama AWS" title="Diagrama AWS">
-
 ![image](img/web_app_diagram_AWS.png)
 
 Descripción del diseño:
@@ -132,4 +130,4 @@ Adicionalmente, se proporciona un pipeline para **GitLab CI**, ubicado en `./com
 
 Respecto a la semántica es similar al pipeline descripto anteriormente, sólo que permite triggerearlo específicamente cuando se detecten cambios en el archivo HTML indicado, mediante la regla **changes**.
 
-Además, su sintaxis no verbosa es útil para definir variables que se utilizarán a continuación. Otra diferencia sintáxtica es que en vez de usar *jobs* se arregla de *stages* o etapas, las cuales en este caso son *build* y *deploy*.
+Además, su sintaxis no verbosa es útil para definir variables que se utilizarán a continuación. Otra diferencia sintáxica es que en vez de usar *jobs* se arregla de *stages* o etapas, las cuales en este caso son *build* y *deploy*.
