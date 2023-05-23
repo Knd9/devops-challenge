@@ -118,15 +118,15 @@ Dockerizar un nginx con el index.html default. Elaborar un pipeline que ante cad
 
 *Solución*
 
-La implementación está hecha utilizando **GitHub Actions**, a través del archivo pipeline CI/CD `./compose/nginx/.github/workflows/ci.yml`. 
+La implementación está hecha utilizando **GitHub Actions**, a través del archivo pipeline CI/CD `./nginx/.github/workflows/ci.yml`. 
 
 El pipeline se inicia cuando se produce un push o una pull request en la rama *main*. Este consta de un *job* llamado **build** que se ejecuta en una máquina virtual con Ubuntu.
 
-Comprende la verificación de si hubo algún cambio en el respositorio (inclusive en index.html), la construcción de la imagen de Nginx ubicada en `./compose/nginx/Dockerfile` con el comando `docker build`), y como paso final, copia la configuración de Nginx `./compose/nginx/default.conf` al directorio `/etc/nginx/conf.d` y realiza el despliegue con `docker run` para crear un contenedor Docker utilizando la imagen y montando los archivos `default.conf` y el directorio `html` en el mismo.
+Comprende la verificación de si hubo algún cambio en el respositorio (inclusive en index.html), la construcción de la imagen de Nginx ubicada en `./nginx/Dockerfile` con el comando `docker build`), y como paso final, copia la configuración de Nginx `./nginx/default.conf` al directorio `/etc/nginx/conf.d` y realiza el despliegue con `docker run` para crear un contenedor Docker utilizando la imagen y montando los archivos `default.conf` y el directorio `html` en el mismo.
 
 Puede monitorearse el progreso y los resultados del pipeline en la pestaña `Actions` del repositorio.
 
-Adicionalmente, se proporciona un pipeline para **GitLab CI**, ubicado en `./compose/nginx/.gitlab-ci.yml` como alternativa si se utilizara GitLab. 
+Adicionalmente, se proporciona un pipeline para **GitLab CI**, ubicado en `./nginx/.gitlab-ci.yml` como alternativa si se utilizara GitLab. 
 
 Respecto a la semántica es similar al pipeline descripto anteriormente, sólo que permite triggerearlo específicamente cuando se detecten cambios en el archivo HTML indicado, mediante la regla **changes**.
 
