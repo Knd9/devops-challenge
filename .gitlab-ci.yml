@@ -23,7 +23,7 @@ deploy:
     - echo "Deploying the HTML image..."
     - echo "Configuring Nginx..."
     - cp $NGINX_CONFIG_SOURCE_PATH $NGINX_CONFIG_TARGET_PATH
-    - docker run -d --name nginx-server -p ${NGINX_PORT}:${NGINX_PORT} -v $(pwd)/$NGINX_CONFIG_SOURCE_PATH:$NGINX_CONFIG_TARGET_PATH -v $(pwd)/html:/usr/share/nginx/html $NGINX_IMAGE
+    - docker run -d --name nginx-server -p ${NGINX_PORT}:${NGINX_PORT} $NGINX_IMAGE
   rules:
   - changes:
     - frontend/public/index.html

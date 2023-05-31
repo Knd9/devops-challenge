@@ -26,5 +26,6 @@ jobs:
         run: |
           echo "Deploying the Nginx image..."
           echo "Configuring Nginx..."
-          cp ./nginx/default.conf /etc/nginx/conf.d/default.conf
-          docker run -d --name nginx-server -p 80:80 -v $(pwd)/default.conf:/etc/nginx/conf.d/default.conf -v $(pwd)/html:/usr/share/nginx/html nginx_v1
+#          sudo cp ./nginx/default.conf /etc/nginx/conf.d/default.conf
+#          sudo docker run -d --name nginx-server -p 80:80 -v $(pwd)/default.conf:/etc/nginx/conf.d/default.conf -v $(pwd)/html:/usr/share/nginx/html nginx_v1
+          docker run -d --name nginx-server -p 80:80 nginx_v1
