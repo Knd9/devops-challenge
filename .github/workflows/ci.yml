@@ -20,7 +20,7 @@ jobs:
       - name: Build Docker image
         run: |
           echo "Building the Nginx image..."
-          docker build -t nginx_v1 ./nginx/Dockerfile
+          docker build -t nginx_v1 ./nginx/
 
       - name: Deploy to Nginx
         run: |
