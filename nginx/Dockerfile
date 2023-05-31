@@ -5,10 +5,10 @@ WORKDIR /usr/src/app
 
 # update nginx conf
 RUN rm -rf /etc/nginx/conf.d
-COPY ./nginx/default.conf /etc/nginx/conf.d
+COPY ./default.conf /etc/nginx/conf.d
 
 # copy static files
-COPY ./frontend/public/index.html /usr/share/nginx/html
+COPY ../frontend/public/index.html /usr/share/nginx/html
 
 # expose port
 EXPOSE 80
