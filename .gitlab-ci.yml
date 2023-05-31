@@ -4,8 +4,8 @@ stages:
 
 variables:
   NGINX_PORT: 80
-  NGINX_IMAGE: ./Dockerfile
-  NGINX_CONFIG_SOURCE_PATH: ./default.conf
+  NGINX_IMAGE: nginx_v1
+  NGINX_CONFIG_SOURCE_PATH: ./nginx/default.conf
   NGINX_CONFIG_TARGET_PATH: /etc/nginx/conf.d/default.conf
 
 build:
