@@ -36,18 +36,20 @@ Puede utilizarse el servicio **AWS Certificate Manager** (2) para asegurar el tr
 * El **Frontend** en Js se alojará en un bucket de almacenamiento a través del servicio **Amazon S3** (3). Este es un servicio de almacenamiento de objetos en la nube que además permite recuperar cualquier cantidad de datos desde cualquier lugar en la web, a través de su URL público.
 Podría complementarse con **Amazon CloudFront** (4) como servicio de CDN (Red de Distribución de Contenidos) para mejorar la velocidad de carga de los archivos a través de su red de servidores global.
 
-* El **Backend** se implementará en contenedores de **Docker**. Siguiendo el diseño mediante AWS, estos contenedores se pueden alojar, desplegar y ejecutar utilizando el servicio **Amazon Elastic Container Service (ECS)** en instancias **EC2** (*) (5), permitiendo una fácil integración con otros servicios de AWS. La administración de clústeres y escalado se realiza a través de **AWS Management Console**, **AWS CLI** o **SDK**. ECS ofrece dos modos de ejecución de contenedores: **Fargate**, que permite ejecutar contenedores sin preocuparse por la infraestructura subyacente, y **EC2**, que permite administrar las instancias EC2. Se usará **AWS Elastic Load Balancing (ELB)** (7) como balanceador de carga para distribuir la carga de tráfico entre las instancias EC2 del Backend.
+* El **Backend** se implementará en contenedores de **Docker**. Siguiendo el diseño mediante AWS, estos contenedores se pueden alojar y desplegar utilizando el servicio **Amazon Elastic Container Service (ECS)** en instancias **EC2** (*) (5) registradas en **Amazon Elastic Container Register (ECR)**, permitiendo una fácil integración con otros servicios de AWS. La administración de clústeres y escalado se realiza a través de **AWS Management Console**, **AWS CLI** o **SDK**. ECS ofrece dos modos de ejecución de contenedores: **Fargate**, que permite ejecutar contenedores sin preocuparse por la infraestructura subyacente, y **EC2**, que permite administrar las instancias EC2. Para soportar cargas variables, la función **Auto Scaling de EC2** (6) permite escalar automáticamente el número de instancias en función de la demanda, donde se pueden crear condiciones para agregar o eliminar instancias de EC2, logrando mantener la capacidad de la red para manejar picos de tráfico. Para poder conectarse a otros servicios por internet sin perder seguridad se les asigna una IP pública a través de una **NAT gateway**.
+
+Se usará **AWS Elastic Load Balancing (ELB)** (7) como balanceador de carga para distribuir la carga de tráfico entre las instancias EC2 del Backend.
 
   - Otra alternativa que ya contempla tanto el despliegue como también la administración de los contenedores de Docker a gran escala, es **Kubernetes de GCP**, que además se ejecuta en cualquier entorno de nube o local.
 
 * Para la base de datos relacional, se puede utilizar el servicio **Amazon RDS** (8) o bien **Cloud SQL de GCP**.
 * La base de datos no relacional se puede alojar en el servicio **Amazon DynamoDB** (9) o bien en **Firestore de GCP**.
 
-* Los **microservicios externos** (10) se pueden integrar mediante el servicio **Amazon API Gateway** (11) para exponerlos como APIs y el backend los consuma. Este servicio de AWS permite crear, publicar y administrar APIs. Como complemento puede utilizarse el servicio **AWS App Mesh** (12), que permitirá controlar y supervisar el tráfico de red entre los microservicios que consume el backend. 
+Otro servicio que sería muy útil para el monitoreo de recursos utilizados es **Amazon Cloud Watch** (10).
 
-(*) El servicio **Amazon Elastic Compute Cloud (EC2)** permite lanzar instancias de servidores virtuales en la nube con varias opciones de configuración, como el tamaño de la instancia, el tipo de sistema operativo, la capacidad de almacenamiento y la cantidad de CPU y RAM. Se pueden utilizar múltiples instancias de EC2, distribuyendo el tráfico entre ellas. Incluso para soportar cargas variables, la función **Auto Scaling de EC2** (6) permite escalar automáticamente el número de instancias en función de la demanda, donde se pueden crear condiciones para agregar o eliminar instancias de EC2, logrando mantener la capacidad de la red para manejar picos de tráfico.
+* Los **microservicios externos** (11) se pueden consumir a través de internet. Como complemento puede utilizarse el servicio **AWS App Mesh** (12), que permitirá controlar y supervisar el tráfico de red entre los microservicios que consume el backend. 
 
-Otro servicio que sería muy útil agregar para el monitoreo de recursos utilizados es **Amazon Clou Watch**.
+(*) El servicio **Amazon Elastic Compute Cloud (EC2)** permite lanzar instancias de servidores virtuales en la nube con varias opciones de configuración, como el tamaño de la instancia, el tipo de sistema operativo, la capacidad de almacenamiento y la cantidad de CPU y RAM. 
 
 ## 2. Despliegue de una aplicación Django y React.js:
 
